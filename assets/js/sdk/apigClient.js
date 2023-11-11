@@ -53,7 +53,7 @@ apigClientFactory.newClient = function (config) {
 
     
     // extract endpoint and path from url
-    var invokeUrl = 'https://b18hgh9jv8.execute-api.us-east-1.amazonaws.com/dev3';
+    var invokeUrl = 'https://b18hgh9jv8.execute-api.us-east-1.amazonaws.com/apikey3';
     var endpoint = /(^https?:\/\/[^\/]+)/g.exec(invokeUrl)[1];
     var pathComponent = invokeUrl.substring(endpoint.length);
 
@@ -86,13 +86,13 @@ apigClientFactory.newClient = function (config) {
     apigClient.searchGet = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
-        apiGateway.core.utils.assertParametersDefined(params, ['Access-Control-Allow-Origin', 'Access-Control-Allow-Headers', 'q', 'Access-Control-Allow-Methods'], ['body']);
+        apiGateway.core.utils.assertParametersDefined(params, ['q'], ['body']);
         
         var searchGetRequest = {
             verb: 'get'.toUpperCase(),
             path: pathComponent + uritemplate('/search').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
-            headers: apiGateway.core.utils.parseParametersToObject(params, ['Access-Control-Allow-Origin', 'Access-Control-Allow-Headers', 'Access-Control-Allow-Methods']),
-            queryParams: apiGateway.core.utils.parseParametersToObject(params, ['q', ]),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, ['q']),
             body: body
         };
         
@@ -104,13 +104,13 @@ apigClientFactory.newClient = function (config) {
     apigClient.searchOptions = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
-        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        apiGateway.core.utils.assertParametersDefined(params, ['q'], ['body']);
         
         var searchOptionsRequest = {
             verb: 'options'.toUpperCase(),
             path: pathComponent + uritemplate('/search').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
             headers: apiGateway.core.utils.parseParametersToObject(params, []),
-            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, ['q']),
             body: body
         };
         
@@ -122,12 +122,12 @@ apigClientFactory.newClient = function (config) {
     apigClient.uploadBucketKeyPut = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
-        apiGateway.core.utils.assertParametersDefined(params, ['key', 'bucket', 'Access-Control-Allow-Origin', 'Access-Control-Allow-Headers', 'x-amz-meta-customLabels', 'Access-Control-Allow-Methods'], ['body']);
+        apiGateway.core.utils.assertParametersDefined(params, ['key', 'bucket', 'Content-Type', 'x-amz-meta-customLabels'], ['body']);
         
         var uploadBucketKeyPutRequest = {
             verb: 'put'.toUpperCase(),
             path: pathComponent + uritemplate('/upload/{bucket}/{key}').expand(apiGateway.core.utils.parseParametersToObject(params, ['key', 'bucket', ])),
-            headers: apiGateway.core.utils.parseParametersToObject(params, ['Access-Control-Allow-Origin', 'Access-Control-Allow-Headers', 'x-amz-meta-customLabels', 'Access-Control-Allow-Methods']),
+            headers: apiGateway.core.utils.parseParametersToObject(params, ['Content-Type', 'x-amz-meta-customLabels']),
             queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
             body: body
         };
@@ -140,12 +140,12 @@ apigClientFactory.newClient = function (config) {
     apigClient.uploadBucketKeyOptions = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
-        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        apiGateway.core.utils.assertParametersDefined(params, ['Content-Type', 'x-amz-meta-customLabels'], ['body']);
         
         var uploadBucketKeyOptionsRequest = {
             verb: 'options'.toUpperCase(),
             path: pathComponent + uritemplate('/upload/{bucket}/{key}').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
-            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            headers: apiGateway.core.utils.parseParametersToObject(params, ['Content-Type', 'x-amz-meta-customLabels']),
             queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
             body: body
         };
