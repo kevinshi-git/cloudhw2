@@ -40,7 +40,6 @@
     <script>
         var sdk = apigClientFactory.newClient();
         document.getElementById('uploadButton').addEventListener('click', uploadImage);
-       
 
         function uploadImage() {//body=image btoa parameter header is content type and custom tags
             const imageInput = document.getElementById('imageInput');//get file
@@ -58,17 +57,34 @@
                 customtagslist[i] = customtagslist[i].trim()
                 if (customtagslist[i]!=""){
                     customtagslistfinal.push(customtagslist[i])}}
-            customtagslistfinal=JSON.stringify(customtagslistfinal)
+            //customtagslistfinal=JSON.stringify(customtagslistfinal)
             console.log("custom tags final: ", customtagslistfinal)
             
             if (file) { //upload
-                file=btoa(file)
-                sdk.uploadBucketKeyPut({"bucket":bucket_name,"key":imageName,"Content-Type":"text/base64","x-amz-meta-customLabels": customtagslistfinal},
-                file,
-                {})
-                .then((response) => {
-                    console.log("response: ",response)
-                        })}                
+
+
+                let base64String = "";
+                let reader = new FileReader();
+                console.log("next");
+                reader.onload = function () {
+                    base64String = reader.result.replace("data:", "").replace(/^.+,/, "");
+                    imageBase64Stringsep = base64String;
+                    // alert(imageBase64Stringsep);
+                    console.log("binary picture:",base64String);
+                    sdk.uploadPut({"Content-Type":"text/base64","x-amz-meta-customLabels": customtagslistfinal},
+                        base64String,
+                        {})
+                        .then((response) => {
+                            console.log("response: ",response)
+                                })}  
+                reader.readAsDataURL(file);
+
+                }
+                
+
+                //file=btoa(file)
+                //console.log("binary file: ",base64String)
+                              
         }
 
         document.getElementById('searchButton').addEventListener('click', searchImages);
